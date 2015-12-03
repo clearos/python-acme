@@ -1,12 +1,8 @@
 %global         srcname  acme
-%global         revision dev20151123
-# A dependant library python3-ndg_httpsclient is not yet built in rawhide
-# Disable the python3 build until it is and then remove the conditional
-# See https://bugzilla.redhat.com/show_bug.cgi?id=1286321
 
 Name:           python-acme
-Version:        0.0.0
-Release:        3.%{revision}%{?dist}
+Version:        0.1.0
+Release:        1.%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
@@ -145,6 +141,8 @@ grep -q %{__python2} %{buildroot}%{_bindir}/jws
 %doc docs/_build/html
 
 %changelog
+* Thu Dec 03 2015 James Hogarth <james.hogarth@gmail.com> - 0.1.0-1
+- Update to new upstream release for the open beta
 * Mon Nov 30 2015 James Hogarth <james.hogarth@gmail.com> - 0.0.0-3-dev20151123
 - Update spec with comments from review
 * Sat Nov 28 2015 James Hogarth <james.hogarth@gmail.com> - 0.0.0-2.dev20151123
