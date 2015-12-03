@@ -2,7 +2,7 @@
 
 Name:           python-acme
 Version:        0.1.0
-Release:        1.%{?dist}
+Release:        1%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
