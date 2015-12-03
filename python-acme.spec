@@ -91,7 +91,7 @@ Summary:  Documentation for python-acme libraries
 Documentation for the ACME python libraries
 
 %prep
-%autosetup -n %{srcname}-%{version}.%{revision}
+%autosetup -n %{srcname}-%{version}
 
 
 %build
