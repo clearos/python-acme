@@ -2,11 +2,11 @@
 
 Name:           python-acme
 Version:        0.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
-Source0:        https://pypi.python.org/packages/source/a/%{srcname}/%{srcname}-%{version}.%{revision}.tar.gz
+Source0:        https://pypi.python.org/packages/source/a/%{srcname}/%{srcname}-%{version}.tar.gz
 
 BuildRequires:  python2-devel
 BuildRequires:  python-sphinx
@@ -141,6 +141,8 @@ grep -q %{__python2} %{buildroot}%{_bindir}/jws
 %doc docs/_build/html
 
 %changelog
+* Thu Dec 03 2015 James Hogarth <james.hogarth@gmail.com> - 0.1.0-2
+- Fix up the removal of the dev release snapshot
 * Thu Dec 03 2015 James Hogarth <james.hogarth@gmail.com> - 0.1.0-1
 - Update to new upstream release for the open beta
 * Mon Nov 30 2015 James Hogarth <james.hogarth@gmail.com> - 0.0.0-3-dev20151123
