@@ -18,8 +18,6 @@ BuildRequires:  python-pyrfc3339
 BuildRequires:  python-werkzeug
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-sphinx
-BuildRequires:  python3-sphinxcontrib-programoutput
 BuildRequires:  python3-cryptography
 BuildRequires:  python3-pyOpenSSL
 BuildRequires:  python3-requests
@@ -98,17 +96,19 @@ Documentation for the ACME python libraries
 %py2_build
 %py3_build
 
+# build documentation
+%{__python2} setup.py install --user
+make -C docs html PATH=$HOME/.local/bin:$PATH
+
+# Clean up stuff we don't need for docs
+rm -rf docs/_build/html/{.buildinfo,_sources}
+
 %install
 # Do python3 first so bin ends up from py2
 %py3_install
 %py2_install
-# man page is pretty useless but api pages are decent
-# Issue opened upstream for improving man page
-# Need to cd as parent makefile tries to build libraries
-(  cd docs && make  html )
-# Clean up stuff we don't need for docs
-rm -rf docs/_build/html/{.buildinfo,man,_sources}
-# Unbundle fonts already on system 
+
+# Unbundle fonts already on system
 # Lato ttf is in texlive but that adds a lot of dependencies (30+MB) for just a font in documentation
 # and lato is not in it's own -fonts package, only texlive
 rm -f docs/_build/html/_static/fonts/fontawesome*
@@ -125,18 +125,18 @@ ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.woff docs/_build/html/_s
 grep -q %{__python2} %{buildroot}%{_bindir}/jws
 
 %files -n python2-acme
-%license LICENSE.txt 
+%license LICENSE.txt
 %{python2_sitelib}/%{srcname}
 %{python2_sitelib}/%{srcname}-%{version}*.egg-info
 %{_bindir}/jws
 
 %files -n python3-acme
-%license LICENSE.txt 
+%license LICENSE.txt
 %{python3_sitelib}/%{srcname}
 %{python3_sitelib}/%{srcname}-%{version}*.egg-info
 
 %files doc
-%license LICENSE.txt 
+%license LICENSE.txt
 %doc README.rst
 %doc docs/_build/html
 
