@@ -1,8 +1,14 @@
 %global         srcname  acme
 
+%if 0%{?fedora}
+%bcond_without python3
+%else
+%bcond_with python3
+%endif
+
 Name:           python-acme
 Version:        0.1.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
@@ -17,6 +23,7 @@ BuildRequires:  python-requests
 BuildRequires:  python-pyrfc3339
 BuildRequires:  python-werkzeug
 
+%if %{with python3}
 BuildRequires:  python3-devel
 BuildRequires:  python3-sphinx
 BuildRequires:  python3-sphinxcontrib-programoutput
@@ -25,15 +32,18 @@ BuildRequires:  python3-pyOpenSSL
 BuildRequires:  python3-requests
 BuildRequires:  python3-pyrfc3339
 BuildRequires:  python3-werkzeug
+%endif
 
 # Required for testing
 BuildRequires:  python-ndg_httpsclient
 BuildRequires:  python-nose
 BuildRequires:  python-tox
 
+%if %{with python3}
 BuildRequires:  python3-ndg_httpsclient
 BuildRequires:  python3-nose
 BuildRequires:  python3-tox
+%endif
 
 BuildArch:      noarch
 
@@ -47,7 +57,10 @@ Requires: pytz
 Requires: python-requests
 Requires: python-six
 Requires: python-werkzeug
+%if %{with python3}
+# Recommends not supported by rpm on EL7
 Recommends: python-acme-doc
+%endif
 Summary:        %{summary}
 %{?python_provide:%python_provide python2-acme}
 
@@ -60,6 +73,7 @@ Python libraries implementing the Automatic Certificate Management Environment
 Python 2 library for use of the Automatic Certificate Management Environment
 protocol as defined by the IETF. It's used by the Let's Encrypt project.
 
+%if %{with python3}
 %package -n python3-acme
 Requires: python3-cryptography
 Requires: python3-ndg_httpsclient
@@ -77,6 +91,7 @@ Summary:        %{summary}
 %description -n python3-acme
 Python 3 library for use of the Automatic Certificate Management Environment
 protocol as defined by the IETF. It's used by the Let's Encrypt project.
+%endif
 
 %package doc
 Provides: bundled(jquery)
@@ -96,11 +111,15 @@ Documentation for the ACME python libraries
 
 %build
 %py2_build
+%if %{with python3}
 %py3_build
+%endif
 
 %install
+%if %{with python3}
 # Do python3 first so bin ends up from py2
 %py3_install
+%endif
 %py2_install
 # man page is pretty useless but api pages are decent
 # Issue opened upstream for improving man page
@@ -120,7 +139,9 @@ ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.woff docs/_build/html/_s
 
 %check
 %{__python2} setup.py test
+%if %{with python3}
 %{__python3} setup.py test
+%endif
 # Make sure the script uses the expected python version
 grep -q %{__python2} %{buildroot}%{_bindir}/jws
 
@@ -130,10 +151,12 @@ grep -q %{__python2} %{buildroot}%{_bindir}/jws
 %{python2_sitelib}/%{srcname}-%{version}*.egg-info
 %{_bindir}/jws
 
+%if %{with python3}
 %files -n python3-acme
 %license LICENSE.txt 
 %{python3_sitelib}/%{srcname}
 %{python3_sitelib}/%{srcname}-%{version}*.egg-info
+%endif
 
 %files doc
 %license LICENSE.txt 
@@ -141,6 +164,9 @@ grep -q %{__python2} %{buildroot}%{_bindir}/jws
 %doc docs/_build/html
 
 %changelog
+* Thu Dec 03 2015 Robert Buchholz <rbu@goodpoint.de> - 0.1.0-3
+- epel7: Only build python2 package
+
 * Thu Dec 03 2015 James Hogarth <james.hogarth@gmail.com> - 0.1.0-2
 - Fix up the removal of the dev release snapshot
 * Thu Dec 03 2015 James Hogarth <james.hogarth@gmail.com> - 0.1.0-1
