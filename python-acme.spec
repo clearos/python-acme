@@ -2,7 +2,7 @@
 
 Name:           python-acme
 Version:        0.1.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
@@ -18,6 +18,8 @@ BuildRequires:  python-pyrfc3339
 BuildRequires:  python-werkzeug
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-sphinx
+BuildRequires:  python3-sphinxcontrib-programoutput
 BuildRequires:  python3-cryptography
 BuildRequires:  python3-pyOpenSSL
 BuildRequires:  python3-requests
@@ -98,7 +100,7 @@ Documentation for the ACME python libraries
 
 # build documentation
 %{__python2} setup.py install --user
-make -C docs html PATH=$HOME/.local/bin:$PATH
+make -C docs html man  PATH=$HOME/.local/bin:$PATH
 
 # Clean up stuff we don't need for docs
 rm -rf docs/_build/html/{.buildinfo,_sources}
@@ -108,7 +110,7 @@ rm -rf docs/_build/html/{.buildinfo,_sources}
 %py3_install
 %py2_install
 
-# Unbundle fonts already on system
+# Unbundle fonts already on system and put the html docs in place
 # Lato ttf is in texlive but that adds a lot of dependencies (30+MB) for just a font in documentation
 # and lato is not in it's own -fonts package, only texlive
 rm -f docs/_build/html/_static/fonts/fontawesome*
@@ -117,6 +119,8 @@ ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.svg docs/_build/html/_st
 ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.ttf docs/_build/html/_static/fonts/fontawesome-webfont.ttf
 ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.woff docs/_build/html/_static/fonts/fontawesome-webfont.woff
 
+# Put the man pages in place
+install -pD -t %{buildroot}%{_mandir}/man1 docs/_build/man/* 
 
 %check
 %{__python2} setup.py test
@@ -129,6 +133,7 @@ grep -q %{__python2} %{buildroot}%{_bindir}/jws
 %{python2_sitelib}/%{srcname}
 %{python2_sitelib}/%{srcname}-%{version}*.egg-info
 %{_bindir}/jws
+%doc %{_mandir}/man1/jws*
 
 %files -n python3-acme
 %license LICENSE.txt
@@ -139,8 +144,12 @@ grep -q %{__python2} %{buildroot}%{_bindir}/jws
 %license LICENSE.txt
 %doc README.rst
 %doc docs/_build/html
+%doc %{_mandir}/man1/acme-python*
 
 %changelog
+* Fri Dec 04 2015 James Hogarth <james.hogarth@gmail.com> - 0.1.0-3
+- Restore missing dependencies causing a FTBFS with py3 tests
+- Add the man pages
 * Thu Dec 03 2015 James Hogarth <james.hogarth@gmail.com> - 0.1.0-2
 - Fix up the removal of the dev release snapshot
 * Thu Dec 03 2015 James Hogarth <james.hogarth@gmail.com> - 0.1.0-1
