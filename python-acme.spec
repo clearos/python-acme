@@ -8,7 +8,7 @@
 
 Name:           python-acme
 Version:        0.1.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
@@ -17,8 +17,9 @@ Source0:        https://pypi.python.org/packages/source/a/%{srcname}/%{srcname}-
 BuildRequires:  python2-devel
 BuildRequires:  python-sphinx
 BuildRequires:  python-sphinxcontrib-programoutput
+BuildRequires:  python-sphinx_rtd_theme
 BuildRequires:  python-cryptography
-BuildRequires:  pyOpenSSL
+BuildRequires:  pyOpenSSL >= 0.15
 BuildRequires:  python-requests
 BuildRequires:  python-pyrfc3339
 BuildRequires:  python-werkzeug
@@ -28,7 +29,7 @@ BuildRequires:  python3-devel
 BuildRequires:  python3-sphinx
 BuildRequires:  python3-sphinxcontrib-programoutput
 BuildRequires:  python3-cryptography
-BuildRequires:  python3-pyOpenSSL
+BuildRequires:  python3-pyOpenSSL >= 0.15
 BuildRequires:  python3-requests
 BuildRequires:  python3-pyrfc3339
 BuildRequires:  python3-werkzeug
@@ -38,6 +39,8 @@ BuildRequires:  python3-werkzeug
 BuildRequires:  python-ndg_httpsclient
 BuildRequires:  python-nose
 BuildRequires:  python-tox
+BuildRequires:  python-mock
+BuildRequires:  pytz
 
 %if %{with python3}
 BuildRequires:  python3-ndg_httpsclient
@@ -51,7 +54,7 @@ BuildArch:      noarch
 Requires: python-cryptography
 Requires: python-ndg_httpsclient
 Requires: python-pyasn1
-Requires: pyOpenSSL
+Requires: pyOpenSSL >= 0.15
 Requires: python-pyrfc3339
 Requires: pytz
 Requires: python-requests
@@ -164,6 +167,9 @@ grep -q %{__python2} %{buildroot}%{_bindir}/jws
 %doc docs/_build/html
 
 %changelog
+* Thu Dec 03 2015 Robert Buchholz <rbu@goodpoint.de> - 0.1.0-4
+- Specify more of the EPEL dependencies
+
 * Thu Dec 03 2015 Robert Buchholz <rbu@goodpoint.de> - 0.1.0-3
 - epel7: Only build python2 package
 
