@@ -11,6 +11,7 @@ Source0:        https://pypi.python.org/packages/source/a/%{srcname}/%{srcname}-
 BuildRequires:  python2-devel
 BuildRequires:  python-sphinx
 BuildRequires:  python-sphinxcontrib-programoutput
+BuildRequires:  python-sphinx_rtd_theme
 BuildRequires:  python-cryptography
 BuildRequires:  pyOpenSSL
 BuildRequires:  python-requests
@@ -30,10 +31,13 @@ BuildRequires:  python3-werkzeug
 BuildRequires:  python-ndg_httpsclient
 BuildRequires:  python-nose
 BuildRequires:  python-tox
+BuildRequires:  python-mock
 
 BuildRequires:  python3-ndg_httpsclient
 BuildRequires:  python3-nose
 BuildRequires:  python3-tox
+BuildRequires:  python3-mock
+BuildRequires:  python3-pytz
 
 BuildArch:      noarch
 
