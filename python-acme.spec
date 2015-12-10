@@ -1,8 +1,14 @@
 %global         srcname  acme
 
+%if 0%{?fedora}
+%bcond_without python3
+%else
+%bcond_with python3
+%endif
+
 Name:           python-acme
 Version:        0.1.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
@@ -11,29 +17,36 @@ Source0:        https://pypi.python.org/packages/source/a/%{srcname}/%{srcname}-
 BuildRequires:  python2-devel
 BuildRequires:  python-sphinx
 BuildRequires:  python-sphinxcontrib-programoutput
+BuildRequires:  python-sphinx_rtd_theme
 BuildRequires:  python-cryptography
-BuildRequires:  pyOpenSSL
+BuildRequires:  pyOpenSSL >= 0.15
 BuildRequires:  python-requests
 BuildRequires:  python-pyrfc3339
 BuildRequires:  python-werkzeug
 
+%if %{with python3}
 BuildRequires:  python3-devel
 BuildRequires:  python3-sphinx
 BuildRequires:  python3-sphinxcontrib-programoutput
 BuildRequires:  python3-cryptography
-BuildRequires:  python3-pyOpenSSL
+BuildRequires:  python3-pyOpenSSL >= 0.15
 BuildRequires:  python3-requests
 BuildRequires:  python3-pyrfc3339
 BuildRequires:  python3-werkzeug
+%endif
 
 # Required for testing
 BuildRequires:  python-ndg_httpsclient
 BuildRequires:  python-nose
 BuildRequires:  python-tox
+BuildRequires:  python-mock
+BuildRequires:  pytz
 
+%if %{with python3}
 BuildRequires:  python3-ndg_httpsclient
 BuildRequires:  python3-nose
 BuildRequires:  python3-tox
+%endif
 
 BuildArch:      noarch
 
@@ -41,13 +54,16 @@ BuildArch:      noarch
 Requires: python-cryptography
 Requires: python-ndg_httpsclient
 Requires: python-pyasn1
-Requires: pyOpenSSL
+Requires: pyOpenSSL >= 0.15
 Requires: python-pyrfc3339
 Requires: pytz
 Requires: python-requests
 Requires: python-six
 Requires: python-werkzeug
+%if %{with python3}
+# Recommends not supported by rpm on EL7
 Recommends: python-acme-doc
+%endif
 Summary:        %{summary}
 %{?python_provide:%python_provide python2-acme}
 
@@ -60,6 +76,7 @@ Python libraries implementing the Automatic Certificate Management Environment
 Python 2 library for use of the Automatic Certificate Management Environment
 protocol as defined by the IETF. It's used by the Let's Encrypt project.
 
+%if %{with python3}
 %package -n python3-acme
 Requires: python3-cryptography
 Requires: python3-ndg_httpsclient
@@ -77,6 +94,7 @@ Summary:        %{summary}
 %description -n python3-acme
 Python 3 library for use of the Automatic Certificate Management Environment
 protocol as defined by the IETF. It's used by the Let's Encrypt project.
+%endif
 
 %package doc
 Provides: bundled(jquery)
@@ -96,21 +114,23 @@ Documentation for the ACME python libraries
 
 %build
 %py2_build
+%if %{with python3}
 %py3_build
-
-# build documentation
-%{__python2} setup.py install --user
-make -C docs html man  PATH=$HOME/.local/bin:$PATH
-
-# Clean up stuff we don't need for docs
-rm -rf docs/_build/html/{.buildinfo,_sources}
+%endif
 
 %install
+%if %{with python3}
 # Do python3 first so bin ends up from py2
 %py3_install
+%endif
 %py2_install
-
-# Unbundle fonts already on system and put the html docs in place
+# man page is pretty useless but api pages are decent
+# Issue opened upstream for improving man page
+# Need to cd as parent makefile tries to build libraries
+(  cd docs && make  html )
+# Clean up stuff we don't need for docs
+rm -rf docs/_build/html/{.buildinfo,man,_sources}
+# Unbundle fonts already on system 
 # Lato ttf is in texlive but that adds a lot of dependencies (30+MB) for just a font in documentation
 # and lato is not in it's own -fonts package, only texlive
 rm -f docs/_build/html/_static/fonts/fontawesome*
@@ -119,37 +139,40 @@ ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.svg docs/_build/html/_st
 ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.ttf docs/_build/html/_static/fonts/fontawesome-webfont.ttf
 ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.woff docs/_build/html/_static/fonts/fontawesome-webfont.woff
 
-# Put the man pages in place
-install -pD -t %{buildroot}%{_mandir}/man1 docs/_build/man/* 
 
 %check
 %{__python2} setup.py test
+%if %{with python3}
 %{__python3} setup.py test
+%endif
 # Make sure the script uses the expected python version
 grep -q %{__python2} %{buildroot}%{_bindir}/jws
 
 %files -n python2-acme
-%license LICENSE.txt
+%license LICENSE.txt 
 %{python2_sitelib}/%{srcname}
 %{python2_sitelib}/%{srcname}-%{version}*.egg-info
 %{_bindir}/jws
-%doc %{_mandir}/man1/jws*
 
+%if %{with python3}
 %files -n python3-acme
-%license LICENSE.txt
+%license LICENSE.txt 
 %{python3_sitelib}/%{srcname}
 %{python3_sitelib}/%{srcname}-%{version}*.egg-info
+%endif
 
 %files doc
-%license LICENSE.txt
+%license LICENSE.txt 
 %doc README.rst
 %doc docs/_build/html
-%doc %{_mandir}/man1/acme-python*
 
 %changelog
-* Fri Dec 04 2015 James Hogarth <james.hogarth@gmail.com> - 0.1.0-3
-- Restore missing dependencies causing a FTBFS with py3 tests
-- Add the man pages
+* Thu Dec 03 2015 Robert Buchholz <rbu@goodpoint.de> - 0.1.0-4
+- Specify more of the EPEL dependencies
+
+* Thu Dec 03 2015 Robert Buchholz <rbu@goodpoint.de> - 0.1.0-3
+- epel7: Only build python2 package
+
 * Thu Dec 03 2015 James Hogarth <james.hogarth@gmail.com> - 0.1.0-2
 - Fix up the removal of the dev release snapshot
 * Thu Dec 03 2015 James Hogarth <james.hogarth@gmail.com> - 0.1.0-1
