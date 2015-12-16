@@ -1,8 +1,8 @@
 %global         srcname  acme
 
 Name:           python-acme
-Version:        0.1.0
-Release:        3%{?dist}
+Version:        0.1.1
+Release:        1%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
@@ -151,6 +151,8 @@ grep -q %{__python2} %{buildroot}%{_bindir}/jws
 %doc %{_mandir}/man1/acme-python*
 
 %changelog
+* Wed Dec 16 2015 Nick Bebout <nb@fedoraproject.org> - 0.1.1-1
+- Upgrade to 0.1.1
 * Fri Dec 04 2015 James Hogarth <james.hogarth@gmail.com> - 0.1.0-3
 - Restore missing dependencies causing a FTBFS with py3 tests
 - Add the man pages
