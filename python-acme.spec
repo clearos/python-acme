@@ -169,7 +169,7 @@ grep -q %{__python2} %{buildroot}%{_bindir}/jws
 %doc docs/_build/html
 
 %changelog
-* Thu Jan 21 2015 Nick Bebout <nb@fedoraproject.org> - 0.2.0-1
+* Thu Jan 21 2016 Nick Bebout <nb@fedoraproject.org> - 0.2.0-1
 - Upgrade to 0.2.0
 * Wed Dec 16 2015 Nick Bebout <nb@fedoraproject.org> - 0.1.1-1
 - Upgrade to 0.1.1
