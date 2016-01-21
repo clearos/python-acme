@@ -7,7 +7,7 @@
 %endif
 
 Name:           python-acme
-Version:        0.1.1
+Version:        0.2.0
 Release:        1%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
@@ -19,7 +19,7 @@ BuildRequires:  python-sphinx
 BuildRequires:  python-sphinxcontrib-programoutput
 BuildRequires:  python-sphinx_rtd_theme
 BuildRequires:  python-cryptography
-BuildRequires:  pyOpenSSL >= 0.15
+BuildRequires:  pyOpenSSL >= 0.13
 BuildRequires:  python-requests
 BuildRequires:  python-pyrfc3339
 BuildRequires:  python-werkzeug
@@ -169,6 +169,8 @@ grep -q %{__python2} %{buildroot}%{_bindir}/jws
 %doc docs/_build/html
 
 %changelog
+* Thu Jan 21 2015 Nick Bebout <nb@fedoraproject.org> - 0.2.0-1
+- Upgrade to 0.2.0
 * Wed Dec 16 2015 Nick Bebout <nb@fedoraproject.org> - 0.1.1-1
 - Upgrade to 0.1.1
 * Fri Dec 04 2015 James Hogarth <james.hogarth@gmail.com> - 0.1.0-3
