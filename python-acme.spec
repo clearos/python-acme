@@ -29,7 +29,7 @@ BuildRequires:  python3-devel
 BuildRequires:  python3-sphinx
 BuildRequires:  python3-sphinxcontrib-programoutput
 BuildRequires:  python3-cryptography
-BuildRequires:  python3-pyOpenSSL >= 0.15
+BuildRequires:  python3-pyOpenSSL >= 0.13
 BuildRequires:  python3-requests
 BuildRequires:  python3-pyrfc3339
 BuildRequires:  python3-werkzeug
@@ -52,11 +52,15 @@ BuildRequires:  python3-pytz
 
 BuildArch:      noarch
 
+%{!?py2_build: %global py2_build CFLAGS="$RPM_OPT_FLAGS" %{__python} setup.py build}
+%{!?py2_install: %global py2_install %{__python} setup.py install --skip-build --root %{buildroot}}
+%{!?python2_sitelib: %global python2_sitelib %{python_sitelib}}
+
 %package -n python2-acme
 Requires: python-cryptography
 Requires: python-ndg_httpsclient
 Requires: python-pyasn1
-Requires: pyOpenSSL >= 0.15
+Requires: pyOpenSSL >= 0.13
 Requires: python-pyrfc3339
 Requires: pytz
 Requires: python-requests
@@ -148,7 +152,7 @@ ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.woff docs/_build/html/_s
 %{__python3} setup.py test
 %endif
 # Make sure the script uses the expected python version
-grep -q %{__python2} %{buildroot}%{_bindir}/jws
+grep -q %{__python} %{buildroot}%{_bindir}/jws
 
 %files -n python2-acme
 %license LICENSE.txt 
