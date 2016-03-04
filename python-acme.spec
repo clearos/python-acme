@@ -8,11 +8,15 @@
 
 Name:           python-acme
 Version:        0.4.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
 Source0:        https://pypi.python.org/packages/source/a/%{srcname}/%{srcname}-%{version}.tar.gz
+
+%if 0%{?rhel}
+Patch0:         allow-old-setuptools.patch
+%endif
 
 BuildRequires:  python2-devel
 BuildRequires:  python-sphinx
@@ -173,6 +177,8 @@ grep -q %{__python} %{buildroot}%{_bindir}/jws
 %doc docs/_build/html
 
 %changelog
+* Fri Mar 04 2016 Robert Buchholz <rbu@fedoraproject.org> - 0.4.2-2
+- Fix build on EL7 where no newer setuptools is available
 * Fri Mar 04 2016 Robert Buchholz <rbu@fedoraproject.org> - 0.4.2-1
 - Upgrade to 0.4.2
 * Tue Mar 1 2016 Nick Le Mouton <nick@noodles.net.nz> - 0.4.1-1
