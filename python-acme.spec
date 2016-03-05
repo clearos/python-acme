@@ -8,7 +8,7 @@
 
 Name:           python-acme
 Version:        0.4.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
@@ -26,7 +26,6 @@ BuildRequires:  python-cryptography
 BuildRequires:  pyOpenSSL >= 0.13
 BuildRequires:  python-requests
 BuildRequires:  python-pyrfc3339
-BuildRequires:  python-werkzeug
 
 %if %{with python3}
 BuildRequires:  python3-devel
@@ -36,7 +35,6 @@ BuildRequires:  python3-cryptography
 BuildRequires:  python3-pyOpenSSL >= 0.13
 BuildRequires:  python3-requests
 BuildRequires:  python3-pyrfc3339
-BuildRequires:  python3-werkzeug
 %endif
 
 # Required for testing
@@ -69,7 +67,6 @@ Requires: python-pyrfc3339
 Requires: pytz
 Requires: python-requests
 Requires: python-six
-Requires: python-werkzeug
 %if %{with python3}
 # Recommends not supported by rpm on EL7
 Recommends: python-acme-doc
@@ -96,7 +93,6 @@ Requires: python3-pyrfc3339
 Requires: python3-pytz
 Requires: python3-requests
 Requires: python3-six
-Requires: python3-werkzeug
 Recommends: python-acme-doc
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-acme}
@@ -177,6 +173,8 @@ grep -q %{__python} %{buildroot}%{_bindir}/jws
 %doc docs/_build/html
 
 %changelog
+* Sat Mar 05 2016 Robert Buchholz <rbu@fedoraproject.org> - 0.4.2-3
+- Package does not require python-werkzeug anymore, upstream #2453
 * Fri Mar 04 2016 Robert Buchholz <rbu@fedoraproject.org> - 0.4.2-2
 - Fix build on EL7 where no newer setuptools is available
 * Fri Mar 04 2016 Robert Buchholz <rbu@fedoraproject.org> - 0.4.2-1
