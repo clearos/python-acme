@@ -7,8 +7,8 @@
 %endif
 
 Name:           python-acme
-Version:        0.4.2
-Release:        3%{?dist}
+Version:        0.5.0
+Release:        1%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
@@ -173,6 +173,8 @@ grep -q %{__python} %{buildroot}%{_bindir}/jws
 %doc docs/_build/html
 
 %changelog
+* Wed Apr 06 2016 Nick Bebout <nb@fedoraproject.org> - 0.5.0-1
+- Upgrade to 0.5.0
 * Sat Mar 05 2016 Robert Buchholz <rbu@fedoraproject.org> - 0.4.2-3
 - Package does not require python-werkzeug anymore, upstream #2453
 * Fri Mar 04 2016 Robert Buchholz <rbu@fedoraproject.org> - 0.4.2-2
