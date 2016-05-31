@@ -14,6 +14,9 @@ License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
 Source0:        https://files.pythonhosted.org/packages/source/a/%{srcname}/%{srcname}-%{version}.tar.gz
 
+# The client _del test requires assert_called_once() in a newer python2-mock rhbz#1244145
+Patch1:         %{name}-0.7.0-skip-test_del.patch
+
 %if 0%{?rhel}
 Patch0:         allow-old-setuptools.patch
 %endif
@@ -115,7 +118,7 @@ Summary:  Documentation for python-acme libraries
 Documentation for the ACME python libraries
 
 %prep
-%autosetup -n %{srcname}-%{version}
+%autosetup -p1 -n %{srcname}-%{version}
 
 
 %build
