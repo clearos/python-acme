@@ -7,15 +7,12 @@
 %endif
 
 Name:           python-acme
-Version:        0.7.0
+Version:        0.8.1
 Release:        1%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
 Source0:        https://files.pythonhosted.org/packages/source/a/%{srcname}/%{srcname}-%{version}.tar.gz
-
-# The client _del test requires assert_called_once() in a newer python2-mock rhbz#1244145
-Patch1:         %{name}-0.7.0-skip-test_del.patch
 
 %if 0%{?rhel}
 Patch0:         allow-old-setuptools.patch
@@ -176,6 +173,10 @@ grep -q %{__python} %{buildroot}%{_bindir}/jws
 %doc docs/_build/html
 
 %changelog
+* Wed Jun 15 2016 Nick Bebout <nb@fedoraproject.org> - 0.8.1-1
+- Upgrade to 0.8.1
+* Fri Jun 03 2016 James Hogarth <james.hogarth@gmail.com> - 0.8.0-1
+- update to 0.8.0 release
 * Mon May 30 2016 Nick Bebout <nb@fedoraproject.org> - 0.7.0-1
 - Upgrade to 0.7.0
 * Thu May 12 2016 Nick Bebout <nb@fedoraproject.org> - 0.6.0-1
