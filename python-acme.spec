@@ -7,7 +7,7 @@
 %endif
 
 Name:           python-acme
-Version:        0.8.1
+Version:        0.9.2
 Release:        1%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
@@ -173,6 +173,12 @@ grep -q %{__python} %{buildroot}%{_bindir}/jws
 %doc docs/_build/html
 
 %changelog
+* Thu Oct 13 2016 Nick Bebout <nb@fedoraproject.org> - 0.9.2-1
+- Upgrade to 0.9.2
+* Fri Oct 07 2016 Nick Bebout <nb@fedoraproject.org> - 0.9.1-1
+- Upgrade to 0.9.1
+* Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.8.1-2
+- https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
 * Wed Jun 15 2016 Nick Bebout <nb@fedoraproject.org> - 0.8.1-1
 - Upgrade to 0.8.1
 * Fri Jun 03 2016 James Hogarth <james.hogarth@gmail.com> - 0.8.0-1
