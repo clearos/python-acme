@@ -20,7 +20,7 @@ Patch0:         allow-old-setuptools.patch
 
 BuildRequires:  python2-devel
 BuildRequires:  python-sphinx
-BuildRequires:  python-sphinxcontrib-programoutput
+#BuildRequires:  python-sphinxcontrib-programoutput
 BuildRequires:  python-sphinx_rtd_theme
 BuildRequires:  python-cryptography
 BuildRequires:  pyOpenSSL >= 0.13
@@ -30,7 +30,7 @@ BuildRequires:  python-pyrfc3339
 %if %{with python3}
 BuildRequires:  python3-devel
 BuildRequires:  python3-sphinx
-BuildRequires:  python3-sphinxcontrib-programoutput
+#BuildRequires:  python3-sphinxcontrib-programoutput
 BuildRequires:  python3-cryptography
 BuildRequires:  python3-pyOpenSSL >= 0.13
 BuildRequires:  python3-requests
@@ -69,7 +69,7 @@ Requires: python-requests
 Requires: python-six
 %if %{with python3}
 # Recommends not supported by rpm on EL7
-Recommends: python-acme-doc
+#Recommends: python-acme-doc
 %endif
 Summary:        %{summary}
 %{?python_provide:%python_provide python2-acme}
@@ -93,7 +93,7 @@ Requires: python3-pyrfc3339
 Requires: python3-pytz
 Requires: python3-requests
 Requires: python3-six
-Recommends: python-acme-doc
+#Recommends: python-acme-doc
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-acme}
 
@@ -102,17 +102,17 @@ Python 3 library for use of the Automatic Certificate Management Environment
 protocol as defined by the IETF. It's used by the Let's Encrypt project.
 %endif
 
-%package doc
-Provides: bundled(jquery)
-Provides: bundled(underscore)
-Provides: bundled(inconsolata-fonts)
-Provides: bundled(lato-fonts)
-Provides: bundled(robotoslab-fonts)
-Requires: fontawesome-fonts fontawesome-fonts-web
-Summary:  Documentation for python-acme libraries
+# %package doc
+# Provides: bundled(jquery)
+# Provides: bundled(underscore)
+# Provides: bundled(inconsolata-fonts)
+# Provides: bundled(lato-fonts)
+# Provides: bundled(robotoslab-fonts)
+# Requires: fontawesome-fonts fontawesome-fonts-web
+# Summary:  Documentation for python-acme libraries
 
-%description doc
-Documentation for the ACME python libraries
+# %description doc
+# Documentation for the ACME python libraries
 
 %prep
 %autosetup -p1 -n %{srcname}-%{version}
@@ -130,20 +130,20 @@ Documentation for the ACME python libraries
 %py3_install
 %endif
 %py2_install
-# man page is pretty useless but api pages are decent
-# Issue opened upstream for improving man page
-# Need to cd as parent makefile tries to build libraries
-(  cd docs && make  html )
-# Clean up stuff we don't need for docs
-rm -rf docs/_build/html/{.buildinfo,man,_sources}
-# Unbundle fonts already on system 
-# Lato ttf is in texlive but that adds a lot of dependencies (30+MB) for just a font in documentation
-# and lato is not in it's own -fonts package, only texlive
-rm -f docs/_build/html/_static/fonts/fontawesome*
-ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.eot docs/_build/html/_static/fonts/fontawesome-webfont.eot
-ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.svg docs/_build/html/_static/fonts/fontawesome-webfont.svg
-ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.ttf docs/_build/html/_static/fonts/fontawesome-webfont.ttf
-ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.woff docs/_build/html/_static/fonts/fontawesome-webfont.woff
+# # man page is pretty useless but api pages are decent
+# # Issue opened upstream for improving man page
+# # Need to cd as parent makefile tries to build libraries
+# (  cd docs && make  html )
+# # Clean up stuff we don't need for docs
+# rm -rf docs/_build/html/{.buildinfo,man,_sources}
+# # Unbundle fonts already on system 
+# # Lato ttf is in texlive but that adds a lot of dependencies (30+MB) for just a font in documentation
+# # and lato is not in it's own -fonts package, only texlive
+# rm -f docs/_build/html/_static/fonts/fontawesome*
+# ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.eot docs/_build/html/_static/fonts/fontawesome-webfont.eot
+# ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.svg docs/_build/html/_static/fonts/fontawesome-webfont.svg
+# ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.ttf docs/_build/html/_static/fonts/fontawesome-webfont.ttf
+# ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.woff docs/_build/html/_static/fonts/fontawesome-webfont.woff
 
 
 %check
@@ -167,14 +167,15 @@ grep -q %{__python} %{buildroot}%{_bindir}/jws
 %{python3_sitelib}/%{srcname}-%{version}*.egg-info
 %endif
 
-%files doc
-%license LICENSE.txt 
-%doc README.rst
-%doc docs/_build/html
+# %files doc
+# %license LICENSE.txt 
+# %doc README.rst
+# %doc docs/_build/html
 
 %changelog
 * Mon Dec 19 2016 Miro Hrončok <mhroncok@redhat.com> - 0.9.3-2
 - Rebuild for Python 3.6
+- Removing the docs subpackage for now until the dependency works in rawhide
 
 * Fri Oct 14 2016 Nick Bebout <nb@fedoraproject.org> - 0.9.3-1
 - Upgrade to 0.9.3
