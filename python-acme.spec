@@ -7,8 +7,8 @@
 %endif
 
 Name:           python-acme
-Version:        0.9.3
-Release:        2%{?dist}
+Version:        0.11.1
+Release:        1%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
@@ -17,12 +17,6 @@ Source0:        https://files.pythonhosted.org/packages/source/a/%{srcname}/%{sr
 %if 0%{?rhel}
 Patch0:         allow-old-setuptools.patch
 %endif
-# https://github.com/certbot/certbot/commit/8b67a58f3c9bf81f94d49357bd68421145840051
-# fix tests with openssl 1.1, rediffed for 0.9.3 tarball
-Patch1:         python-acme-tests-openssl11.patch
-# https://github.com/certbot/certbot/commit/0956e61c7c8653218bcaa46087d4508fc795feaa
-# drop use of sphinxcontrib-programoutput, rediffed for 0.9.3 tarball
-Patch2:         python-acme-no-programoutput.patch
 
 BuildRequires:  python2-devel
 BuildRequires:  python-sphinx
@@ -177,6 +171,9 @@ grep -q %{__python} %{buildroot}%{_bindir}/jws
 %doc docs/_build/html
 
 %changelog
+* Sat Feb 04 2017 James Hogarth <james.hogarth@gmail.com> - 0.11.1-1
+- Upgrade to 0.11.1
+
 * Thu Jan 05 2017 Adam Williamson <awilliam@redhat.com> - 0.9.3-2
 - Backport upstream fix for tests with OpenSSL 1.1
 - Backport upstream removal of sphinxcontrib-programoutput usage
