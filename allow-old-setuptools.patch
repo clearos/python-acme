@@ -1,16 +1,11 @@
-Common subdirectories: acme-0.7.0-orig/acme and acme-0.7.0/acme
-Common subdirectories: acme-0.7.0-orig/acme.egg-info and acme-0.7.0/acme.egg-info
-Common subdirectories: acme-0.7.0-orig/docs and acme-0.7.0/docs
-Common subdirectories: acme-0.7.0-orig/examples and acme-0.7.0/examples
-diff -u acme-0.7.0-orig/setup.py acme-0.7.0/setup.py
---- acme-0.7.0-orig/setup.py	2016-05-27 15:19:34.000000000 -0500
-+++ acme-0.7.0/setup.py	2016-05-31 09:25:24.237187603 -0500
-@@ -18,9 +18,7 @@
-     'pyrfc3339',
-     'pytz',
-     'requests',
--    # For pkg_resources. >=1.0 so pip resolves it to a version cryptography
--    # will tolerate; see #2599:
+diff --git a/setup.py b/setup.py
+index 338e6ff..83fbf50 100644
+--- a/setup.py
++++ b/setup.py
+@@ -18,7 +18,7 @@ install_requires = [
+     'requests[security]>=2.4.1',  # security extras added in 2.4.1
+     # For pkg_resources. >=1.0 so pip resolves it to a version cryptography
+     # will tolerate; see #2599:
 -    'setuptools>=1.0',
 +    'setuptools',
      'six',
