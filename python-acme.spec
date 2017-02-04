@@ -7,7 +7,7 @@
 %endif
 
 Name:           python-acme
-Version:        0.9.3
+Version:        0.11.1
 Release:        1%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
@@ -20,7 +20,6 @@ Patch0:         allow-old-setuptools.patch
 
 BuildRequires:  python2-devel
 BuildRequires:  python-sphinx
-BuildRequires:  python-sphinxcontrib-programoutput
 BuildRequires:  python-sphinx_rtd_theme
 BuildRequires:  python-cryptography
 BuildRequires:  pyOpenSSL >= 0.13
@@ -30,7 +29,6 @@ BuildRequires:  python-pyrfc3339
 %if %{with python3}
 BuildRequires:  python3-devel
 BuildRequires:  python3-sphinx
-BuildRequires:  python3-sphinxcontrib-programoutput
 BuildRequires:  python3-cryptography
 BuildRequires:  python3-pyOpenSSL >= 0.13
 BuildRequires:  python3-requests
@@ -69,7 +67,7 @@ Requires: python-requests
 Requires: python-six
 %if %{with python3}
 # Recommends not supported by rpm on EL7
-Recommends: python-acme-doc
+#Recommends: python-acme-doc
 %endif
 Summary:        %{summary}
 %{?python_provide:%python_provide python2-acme}
@@ -93,7 +91,7 @@ Requires: python3-pyrfc3339
 Requires: python3-pytz
 Requires: python3-requests
 Requires: python3-six
-Recommends: python-acme-doc
+#Recommends: python-acme-doc
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-acme}
 
@@ -173,6 +171,18 @@ grep -q %{__python} %{buildroot}%{_bindir}/jws
 %doc docs/_build/html
 
 %changelog
+* Sat Feb 04 2017 James Hogarth <james.hogarth@gmail.com> - 0.11.1-1
+- Upgrade to 0.11.1
+
+* Thu Jan 05 2017 Adam Williamson <awilliam@redhat.com> - 0.9.3-2
+- Backport upstream fix for tests with OpenSSL 1.1
+- Backport upstream removal of sphinxcontrib-programoutput usage
+- Re-enable doc generation
+
+* Mon Dec 19 2016 Miro Hrončok <mhroncok@redhat.com>
+- Rebuild for Python 3.6
+- Removing the docs subpackage for now until the dependency works in rawhide
+
 * Fri Oct 14 2016 Nick Bebout <nb@fedoraproject.org> - 0.9.3-1
 - Upgrade to 0.9.3
 * Thu Oct 13 2016 Nick Bebout <nb@fedoraproject.org> - 0.9.2-1
