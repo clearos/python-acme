@@ -15,7 +15,7 @@ URL:            https://pypi.python.org/pypi/acme
 Source0:        https://files.pythonhosted.org/packages/source/a/%{srcname}/%{srcname}-%{version}.tar.gz
 
 %if 0%{?rhel}
-Patch0:         allow-old-setuptools.patch
+Patch0:         epel7-setup.patch
 %endif
 
 BuildRequires:  python2-devel
@@ -134,7 +134,7 @@ Documentation for the ACME python libraries
 (  cd docs && make  html )
 # Clean up stuff we don't need for docs
 rm -rf docs/_build/html/{.buildinfo,man,_sources}
-# Unbundle fonts already on system 
+# Unbundle fonts already on system
 # Lato ttf is in texlive but that adds a lot of dependencies (30+MB) for just a font in documentation
 # and lato is not in it's own -fonts package, only texlive
 rm -f docs/_build/html/_static/fonts/fontawesome*
@@ -153,20 +153,20 @@ ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.woff docs/_build/html/_s
 grep -q %{__python} %{buildroot}%{_bindir}/jws
 
 %files -n python2-acme
-%license LICENSE.txt 
+%license LICENSE.txt
 %{python2_sitelib}/%{srcname}
 %{python2_sitelib}/%{srcname}-%{version}*.egg-info
 %{_bindir}/jws
 
 %if %{with python3}
 %files -n python3-acme
-%license LICENSE.txt 
+%license LICENSE.txt
 %{python3_sitelib}/%{srcname}
 %{python3_sitelib}/%{srcname}-%{version}*.egg-info
 %endif
 
 %files doc
-%license LICENSE.txt 
+%license LICENSE.txt
 %doc README.rst
 %doc docs/_build/html
 
