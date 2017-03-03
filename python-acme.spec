@@ -7,8 +7,8 @@
 %endif
 
 Name:           python-acme
-Version:        0.11.1
-Release:        2%{?dist}
+Version:        0.12.0
+Release:        1%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
@@ -123,18 +123,18 @@ Documentation for the ACME python libraries
 %endif
 
 %install
+%py2_install
 %if %{with python3}
-# Do python3 first so bin ends up from py2
+# Do python3 second so bin ends up from py2 if py3 supported
 %py3_install
 %endif
-%py2_install
 # man page is pretty useless but api pages are decent
 # Issue opened upstream for improving man page
 # Need to cd as parent makefile tries to build libraries
 (  cd docs && make  html )
 # Clean up stuff we don't need for docs
 rm -rf docs/_build/html/{.buildinfo,man,_sources}
-# Unbundle fonts already on system 
+# Unbundle fonts already on system
 # Lato ttf is in texlive but that adds a lot of dependencies (30+MB) for just a font in documentation
 # and lato is not in it's own -fonts package, only texlive
 rm -f docs/_build/html/_static/fonts/fontawesome*
@@ -150,27 +150,39 @@ ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.woff docs/_build/html/_s
 %{__python3} setup.py test
 %endif
 # Make sure the script uses the expected python version
-grep -q %{__python} %{buildroot}%{_bindir}/jws
+%if %{without python3}
+grep -q %{__python2} %{buildroot}%{_bindir}/jws
+%endif
+%if %{with python3}
+grep -q %{__python3_bin} %{buildroot}%{_bindir}/jws
+%endif
 
 %files -n python2-acme
-%license LICENSE.txt 
+%license LICENSE.txt
 %{python2_sitelib}/%{srcname}
 %{python2_sitelib}/%{srcname}-%{version}*.egg-info
+%if %{without python3}
 %{_bindir}/jws
+%endif
 
 %if %{with python3}
 %files -n python3-acme
-%license LICENSE.txt 
+%license LICENSE.txt
 %{python3_sitelib}/%{srcname}
 %{python3_sitelib}/%{srcname}-%{version}*.egg-info
+%{_bindir}/jws
 %endif
 
 %files doc
-%license LICENSE.txt 
+%license LICENSE.txt
 %doc README.rst
 %doc docs/_build/html
 
 %changelog
+* Fri Mar 03 2017 James Hogarth <james.hogarth@gmail.com> -0.12.0-1
+- Update to 0.12.0
+- Change %{_bindir}/jws to be python3 on Fedora
+
 * Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.11.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
