@@ -1,4 +1,6 @@
 %global         srcname  acme
+# temporary to deal with the /usr/libexec/system-python fallout
+%global        real_py3  %{_bindir}/python3
 
 %if 0%{?fedora}
 %bcond_without python3
@@ -8,7 +10,7 @@
 
 Name:           python-acme
 Version:        0.12.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
@@ -154,7 +156,7 @@ ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.woff docs/_build/html/_s
 grep -q %{__python2} %{buildroot}%{_bindir}/jws
 %endif
 %if %{with python3}
-grep -q %{__python3_bin} %{buildroot}%{_bindir}/jws
+grep -q %{real_py3} %{buildroot}%{_bindir}/jws
 %endif
 
 %files -n python2-acme
@@ -179,6 +181,9 @@ grep -q %{__python3_bin} %{buildroot}%{_bindir}/jws
 %doc docs/_build/html
 
 %changelog
+* Fri Mar 03 2017 James Hogarth <james.hogarth@gmail.com> -0.12.0-2
+- Build for python rpm macro change
+
 * Fri Mar 03 2017 James Hogarth <james.hogarth@gmail.com> -0.12.0-1
 - Update to 0.12.0
 - Change %{_bindir}/jws to be python3 on Fedora
