@@ -1,13 +1,13 @@
 diff --git a/setup.py b/setup.py
-index 338e6ff..5204e14 100644
+index 249051f..272dca6 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -15,10 +15,10 @@ install_requires = [
-     'PyOpenSSL>=0.13',
-     'pyrfc3339',
-     'pytz',
--    'requests[security]>=2.4.1',  # security extras added in 2.4.1
-+    'requests>=2.4.1',  # security extras added in 2.4.1
+@@ -19,10 +19,10 @@ install_requires = [
+     # https://github.com/shazow/urllib3/issues/556. This requirement can be
+     # relaxed to 'requests[security]>=2.4.1', however, less useful errors
+     # will be raised for some network/SSL errors.
+-    'requests[security]>=2.10',
++    'requests',
      # For pkg_resources. >=1.0 so pip resolves it to a version cryptography
      # will tolerate; see #2599:
 -    'setuptools>=1.0',
