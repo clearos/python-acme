@@ -1,6 +1,4 @@
 %global         srcname  acme
-# temporary to deal with the /usr/libexec/system-python fallout
-%global        real_py3  %{_bindir}/python3
 
 %if 0%{?fedora}
 %bcond_without python3
@@ -10,7 +8,7 @@
 
 Name:           python-acme
 Version:        0.12.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
@@ -126,9 +124,10 @@ Documentation for the ACME python libraries
 
 %install
 %py2_install
+mv %{buildroot}%{_bindir}/jws{,-2}
 %if %{with python3}
-# Do python3 second so bin ends up from py2 if py3 supported
 %py3_install
+mv %{buildroot}%{_bindir}/jws{,-3}
 %endif
 # man page is pretty useless but api pages are decent
 # Issue opened upstream for improving man page
@@ -144,35 +143,33 @@ ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.eot docs/_build/html/_st
 ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.svg docs/_build/html/_static/fonts/fontawesome-webfont.svg
 ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.ttf docs/_build/html/_static/fonts/fontawesome-webfont.ttf
 ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.woff docs/_build/html/_static/fonts/fontawesome-webfont.woff
-
+# upstream state that certbot isn't ready for python3 yet so symlink the -2 version for now
+ln -s %{_bindir}/jws-2 %{buildroot}%{_bindir}/jws
 
 %check
 %{__python2} setup.py test
 %if %{with python3}
 %{__python3} setup.py test
 %endif
-# Make sure the script uses the expected python version
-%if %{without python3}
-grep -q %{__python2} %{buildroot}%{_bindir}/jws
-%endif
+# Make sure the scripts use the expected python versions
+grep -q %{__python2} %{buildroot}%{_bindir}/jws-2
 %if %{with python3}
-grep -q %{real_py3} %{buildroot}%{_bindir}/jws
+grep -q %{__python3} %{buildroot}%{_bindir}/jws-3
 %endif
 
 %files -n python2-acme
 %license LICENSE.txt
 %{python2_sitelib}/%{srcname}
 %{python2_sitelib}/%{srcname}-%{version}*.egg-info
-%if %{without python3}
 %{_bindir}/jws
-%endif
+%{_bindir}/jws-2
 
 %if %{with python3}
 %files -n python3-acme
 %license LICENSE.txt
 %{python3_sitelib}/%{srcname}
 %{python3_sitelib}/%{srcname}-%{version}*.egg-info
-%{_bindir}/jws
+%{_bindir}/jws-3
 %endif
 
 %files doc
@@ -181,6 +178,10 @@ grep -q %{real_py3} %{buildroot}%{_bindir}/jws
 %doc docs/_build/html
 
 %changelog
+* Fri Mar 03 2017 James Hogarth <james.hogarth@gmail.com> -0.12.0-3
+- upstream request not to use py3 yet so switch jws to py2
+- include a py3 option for testing
+
 * Fri Mar 03 2017 James Hogarth <james.hogarth@gmail.com> -0.12.0-2
 - Build for python rpm macro change
 
