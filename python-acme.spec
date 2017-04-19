@@ -14,8 +14,11 @@ License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
 Source0:        https://files.pythonhosted.org/packages/source/a/%{srcname}/%{srcname}-%{version}.tar.gz
 
+# When running tests argparse is not recognised as provided by core
+Patch0:         acme-argparse.patch
+
 %if 0%{?rhel}
-Patch0:         epel7-setup.patch
+Patch1:         epel7-setup.patch
 %endif
 
 BuildRequires:  python2-devel
