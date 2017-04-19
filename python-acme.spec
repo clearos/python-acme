@@ -7,8 +7,8 @@
 %endif
 
 Name:           python-acme
-Version:        0.12.0
-Release:        3%{?dist}
+Version:        0.13.0
+Release:        1%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
@@ -178,14 +178,17 @@ grep -q %{__python3} %{buildroot}%{_bindir}/jws-3
 %doc docs/_build/html
 
 %changelog
-* Fri Mar 03 2017 James Hogarth <james.hogarth@gmail.com> -0.12.0-3
+* Wed Apr 19 2017 James Hogarth <james.hogarth@gmail.com> - 0.13.0-1
+- Update to 0.13.0
+
+* Fri Mar 03 2017 James Hogarth <james.hogarth@gmail.com> - 0.12.0-3
 - upstream request not to use py3 yet so switch jws to py2
 - include a py3 option for testing
 
-* Fri Mar 03 2017 James Hogarth <james.hogarth@gmail.com> -0.12.0-2
+* Fri Mar 03 2017 James Hogarth <james.hogarth@gmail.com> - 0.12.0-2
 - Build for python rpm macro change
 
-* Fri Mar 03 2017 James Hogarth <james.hogarth@gmail.com> -0.12.0-1
+* Fri Mar 03 2017 James Hogarth <james.hogarth@gmail.com> - 0.12.0-1
 - Update to 0.12.0
 - Change %{_bindir}/jws to be python3 on Fedora
 
