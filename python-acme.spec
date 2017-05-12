@@ -7,7 +7,7 @@
 %endif
 
 Name:           python-acme
-Version:        0.13.0
+Version:        0.14.0
 Release:        1%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
@@ -15,10 +15,9 @@ URL:            https://pypi.python.org/pypi/acme
 Source0:        https://files.pythonhosted.org/packages/source/a/%{srcname}/%{srcname}-%{version}.tar.gz
 
 # When running tests argparse is not recognised as provided by core
-Patch0:         acme-argparse.patch
 
 %if 0%{?rhel}
-Patch1:         epel7-setup.patch
+Patch0:         epel7-setup.patch
 %endif
 
 BuildRequires:  python2-devel
@@ -181,6 +180,9 @@ grep -q %{__python3} %{buildroot}%{_bindir}/jws-3
 %doc docs/_build/html
 
 %changelog
+* Fri May 12 2017 James Hogarth <james.hogarth@gmail.com> - 0.14.0-1
+- Update to 0.14.0
+
 * Wed Apr 19 2017 James Hogarth <james.hogarth@gmail.com> - 0.13.0-1
 - Update to 0.13.0
 
