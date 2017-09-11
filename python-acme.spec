@@ -7,8 +7,8 @@
 %endif
 
 Name:           python-acme
-Version:        0.14.1
-Release:        2%{?dist}
+Version:        0.18.1
+Release:        1%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
@@ -180,6 +180,9 @@ grep -q %{__python3} %{buildroot}%{_bindir}/jws-3
 %doc docs/_build/html
 
 %changelog
+* Sun Sep 10 2017 Nick Bebout <nb@fedoraproject.org> - 0.18.1-1
+- Update to 0.18.1
+
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
