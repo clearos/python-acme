@@ -131,6 +131,9 @@ mv %{buildroot}%{_bindir}/jws{,-2}
 %py3_install
 mv %{buildroot}%{_bindir}/jws{,-3}
 %endif
+
+# Doc generation is currently broken on EL7, see bz#1492884
+%if 0%{?fedora}
 # man page is pretty useless but api pages are decent
 # Issue opened upstream for improving man page
 # Need to cd as parent makefile tries to build libraries
@@ -145,6 +148,7 @@ ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.eot docs/_build/html/_st
 ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.svg docs/_build/html/_static/fonts/fontawesome-webfont.svg
 ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.ttf docs/_build/html/_static/fonts/fontawesome-webfont.ttf
 ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.woff docs/_build/html/_static/fonts/fontawesome-webfont.woff
+%endif
 # upstream state that certbot isn't ready for python3 yet so symlink the -2 version for now
 ln -s %{_bindir}/jws-2 %{buildroot}%{_bindir}/jws
 
@@ -177,10 +181,15 @@ grep -q %{__python3} %{buildroot}%{_bindir}/jws-3
 %files doc
 %license LICENSE.txt
 %doc README.rst
+%if 0%{?fedora}
 %doc docs/_build/html
+%endif
 
 %changelog
-* Sun Sep 10 2017 Nick Bebout <nb@fedoraproject.org> - 0.18.1-1
+* Mon Sep 18 2017 Eli Young <elyscape@gmail.com> - 0.18.1-1
+- Disable doc generation for EPEL7
+
+* Sun Sep 10 2017 Nick Bebout <nb@fedoraproject.org>
 - Update to 0.18.1
 
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.1-2
