@@ -8,7 +8,7 @@
 
 Name:           python-acme
 Version:        0.18.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
@@ -102,6 +102,7 @@ Python 3 library for use of the Automatic Certificate Management Environment
 protocol as defined by the IETF. It's used by the Let's Encrypt project.
 %endif
 
+%if 0%{?fedora}
 %package doc
 Provides: bundled(jquery)
 Provides: bundled(underscore)
@@ -113,6 +114,7 @@ Summary:  Documentation for python-acme libraries
 
 %description doc
 Documentation for the ACME python libraries
+%endif
 
 %prep
 %autosetup -p1 -n %{srcname}-%{version}
@@ -169,6 +171,9 @@ grep -q %{__python3} %{buildroot}%{_bindir}/jws-3
 %{python2_sitelib}/%{srcname}-%{version}*.egg-info
 %{_bindir}/jws
 %{_bindir}/jws-2
+%if 0%{?rhel}
+%doc README.rst
+%endif
 
 %if %{with python3}
 %files -n python3-acme
@@ -176,16 +181,22 @@ grep -q %{__python3} %{buildroot}%{_bindir}/jws-3
 %{python3_sitelib}/%{srcname}
 %{python3_sitelib}/%{srcname}-%{version}*.egg-info
 %{_bindir}/jws-3
+%if 0%{?rhel}
+%doc README.rst
+%endif
 %endif
 
+%if 0%{?fedora}
 %files doc
 %license LICENSE.txt
 %doc README.rst
-%if 0%{?fedora}
 %doc docs/_build/html
 %endif
 
 %changelog
+* Mon Sep 18 2017 Eli Young <elyscape@gmail.com> - 0.18.1-2
+- Disable doc package entirely for EPEL7
+
 * Mon Sep 18 2017 Eli Young <elyscape@gmail.com> - 0.18.1-1
 - Disable doc generation for EPEL7
 
