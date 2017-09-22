@@ -7,8 +7,8 @@
 %endif
 
 Name:           python-acme
-Version:        0.18.1
-Release:        2%{?dist}
+Version:        0.18.2
+Release:        1%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
 URL:            https://pypi.python.org/pypi/acme
@@ -194,6 +194,9 @@ grep -q %{__python3} %{buildroot}%{_bindir}/jws-3
 %endif
 
 %changelog
+* Fri Sep 22 2017 Nick Bebout <nb@fedoraproject.org> - 0.18.2-1
+- Update to 0.18.2
+
 * Mon Sep 18 2017 Eli Young <elyscape@gmail.com> - 0.18.1-2
 - Disable doc package entirely for EPEL7
 
