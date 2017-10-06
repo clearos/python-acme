@@ -1,17 +1,17 @@
 diff --git a/setup.py b/setup.py
-index c6053a9..fc6dfca 100644
+index d22da5c..bf7841a 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -16,10 +16,10 @@ install_requires = [
+@@ -16,10 +16,8 @@ install_requires = [
      'PyOpenSSL>=0.13',
      'pyrfc3339',
      'pytz',
 -    'requests[security]>=2.4.1',  # security extras added in 2.4.1
-+    'requests',
-     # For pkg_resources. >=1.0 so pip resolves it to a version cryptography
-     # will tolerate; see #2599:
+-    # For pkg_resources. >=1.0 so pip resolves it to a version cryptography
+-    # will tolerate; see #2599:
 -    'setuptools>=1.0',
++    'requests',
 +    'setuptools',
-     'six',
+     'six>=1.9.0',  # needed for python_2_unicode_compatible
  ]
  
