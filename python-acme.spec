@@ -7,7 +7,7 @@
 %endif
 
 Name:           python-acme
-Version:        0.18.2
+Version:        0.19.0
 Release:        1%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
@@ -194,6 +194,9 @@ grep -q %{__python3} %{buildroot}%{_bindir}/jws-3
 %endif
 
 %changelog
+* Fri Oct 06 2017 Eli Young <elyscape@gmail.com> - 0.19.0-1
+- Update to 0.19.0 (bz#1499366)
+
 * Fri Sep 22 2017 Nick Bebout <nb@fedoraproject.org> - 0.18.2-1
 - Update to 0.18.2
 
