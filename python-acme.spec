@@ -22,7 +22,9 @@ Patch0:         epel7-setup.patch
 
 BuildRequires:  python2-devel
 BuildRequires:  python-sphinx
+%if 0%{?fedora}
 BuildRequires:  python-sphinx_rtd_theme
+%endif
 BuildRequires:  python-cryptography
 BuildRequires:  pyOpenSSL >= 0.13
 BuildRequires:  python-requests
