@@ -203,7 +203,7 @@ grep -q %{__python3} %{buildroot}%{_bindir}/jws-3
 * Mon Sep 18 2017 Eli Young <elyscape@gmail.com> - 0.18.1-1
 - Disable doc generation for EPEL7
 
-* Sun Sep 10 2017 Nick Bebout <nb@fedoraproject.org>
+* Sun Sep 10 2017 Nick Bebout <nb@fedoraproject.org> - 0.18.1-1
 - Update to 0.18.1
 
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.14.1-2
