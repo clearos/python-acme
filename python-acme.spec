@@ -7,7 +7,7 @@
 %endif
 
 Name:           python-acme
-Version:        0.20.0
+Version:        0.21.0
 Release:        1%{?dist}
 Summary:        Python library for the ACME protocol
 License:        ASL 2.0
@@ -130,12 +130,6 @@ Documentation for the ACME python libraries
 
 %install
 %py2_install
-mv %{buildroot}%{_bindir}/jws{,-2}
-%if %{with python3}
-%py3_install
-mv %{buildroot}%{_bindir}/jws{,-3}
-%endif
-
 # Doc generation is currently broken on EL7, see bz#1492884
 %if 0%{?fedora}
 # man page is pretty useless but api pages are decent
@@ -153,26 +147,17 @@ ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.svg docs/_build/html/_st
 ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.ttf docs/_build/html/_static/fonts/fontawesome-webfont.ttf
 ln -sf /usr/share/fonts/fontawesome/fontawesome-webfont.woff docs/_build/html/_static/fonts/fontawesome-webfont.woff
 %endif
-# upstream state that certbot isn't ready for python3 yet so symlink the -2 version for now
-ln -s %{_bindir}/jws-2 %{buildroot}%{_bindir}/jws
 
-%check
-%{__python2} setup.py test
+#% check
+#%{__python2} setup.py test
 %if %{with python3}
 %{__python3} setup.py test
-%endif
-# Make sure the scripts use the expected python versions
-grep -q %{__python2} %{buildroot}%{_bindir}/jws-2
-%if %{with python3}
-grep -q %{__python3} %{buildroot}%{_bindir}/jws-3
 %endif
 
 %files -n python2-acme
 %license LICENSE.txt
 %{python2_sitelib}/%{srcname}
 %{python2_sitelib}/%{srcname}-%{version}*.egg-info
-%{_bindir}/jws
-%{_bindir}/jws-2
 %if 0%{?rhel}
 %doc README.rst
 %endif
@@ -182,7 +167,6 @@ grep -q %{__python3} %{buildroot}%{_bindir}/jws-3
 %license LICENSE.txt
 %{python3_sitelib}/%{srcname}
 %{python3_sitelib}/%{srcname}-%{version}*.egg-info
-%{_bindir}/jws-3
 %if 0%{?rhel}
 %doc README.rst
 %endif
